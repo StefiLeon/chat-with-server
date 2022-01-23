@@ -7,6 +7,8 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import ios from 'socket.io-express-session';
 import { authorService, messageService } from './services/chatServices.js';
+import initializePassportConfig from './services/passport-config.js';
+import passport from 'passport';
 
 //EXPRESS
 const app = express();
@@ -35,6 +37,9 @@ app.use(cors());
 app.use(express.static(__dirname+'/public'));
 app.use(baseSession);
 io.use(ios(baseSession));
+initializePassportConfig();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //RUTAS
 app.get('/currentUser', (req, res) => {
@@ -44,6 +49,7 @@ app.get('/currentUser', (req, res) => {
 app.post('/register', async (req, res) => {
     let author = req.body;
     let result = await authorService.save(author);
+    console.log('hola');
     res.send({status:"success", message:"Usuario creado", author: result})
 })
 
@@ -58,6 +64,16 @@ app.post('/login', async (req, res) => {
         email: author.email
     }
     res.send({status:"logged"})
+})
+
+app.get('/auth/facebook', passport.authenticate('facebook', {scope:['email']}), (req, res) => {
+
+})
+
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect:'/failPage'
+}), (req, res) => {
+    res.send({message:'Logged in'})
 })
 
 //WEBSOCKETS

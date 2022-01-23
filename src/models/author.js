@@ -26,8 +26,7 @@ export default class Author {
             },
             alias: {
                 type: String,
-                default: "Anónimo",
-                unique: true
+                default: "Anónimo"
             },
             password: {
                 type: String,
