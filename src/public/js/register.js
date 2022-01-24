@@ -22,12 +22,6 @@ formRegister.addEventListener('submit', function(e) {
     .then(json => {
         formRegister.reset();
         console.log('Usuario registrado.');
-        location.replace('../pages/chat.html')
+        location.replace('../chat/')
     })
-})
-
-let btn = document.getElementById('facebook-login')
-btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    location = 'https://dc00-200-127-0-176.ngrok.io/auth/facebook';
 })

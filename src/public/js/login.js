@@ -17,6 +17,15 @@ form.addEventListener('submit', function(e) {
     .then(result => result.json())
     .then(json => {
         console.log(json);
-        location.replace('../pages/chat.html')
+        if(!json.alias) {
+            res.send({status:403, message:"Credenciales no validas"})
+        } else {
+            location.replace('../chat/')
+        }
     })
+})
+
+let btn = document.getElementById('facebook-login')
+btn.addEventListener('click', (e) => {
+    location = "https://dc00-200-127-0-176.ngrok.io/auth/facebook"
 })

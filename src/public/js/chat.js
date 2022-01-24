@@ -19,22 +19,6 @@ fetch('/currentUser')
     let welcome = document.getElementById('author-name');
     welcome.innerHTML = `<p class="username">Bienvenido ${author.alias}</p><button class="btn btn-light" type="submit" id="outlog">Cerrar sesión</button>`
 })
-.then(a => {
-    //Logout
-    let logout = document.getElementById('outlog');
-    logout.addEventListener('submit', function(e) {
-    console.log('adios')
-    // e.preventDefault();
-    // fetch('/logout', {
-    //     method: "POST", 
-    //     headers: {
-    //         'Content-Type':'application/json'
-    //     }
-    // })
-    // .then(result => result.json())
-    // .then(json => location.replace('/'))
-    })}
-)
 
 //Evento de input
 let input = document.getElementById('message');

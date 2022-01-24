@@ -40,7 +40,11 @@ export default class Dao {
     async findOne(params, entity) {
         if(!this.models[entity]) throw new Error (`Entidad ${entity} no encontrada.`);
         let result = await this.models[entity].findOne(params);
-        return result ? result.toObject() : null;
+        if(result){
+            return result ? result.toObject() : null;
+        } else {
+            return console.log('error');
+        }
     }
 
     async findAll(params, entity) {

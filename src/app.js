@@ -44,6 +44,11 @@ app.use(passport.session());
 //RUTAS
 app.get('/currentUser', (req, res) => {
     res.send(req.session.author)
+    if(req.session.author){
+        res.status(200)
+    } else {
+        res.status(403)
+    }
 })
 
 app.post('/register', async (req, res) => {
@@ -58,7 +63,9 @@ app.post('/login', async (req, res) => {
     if(!email || !password) return res.status(400).send({error:"Faltan datos."})
     const author = await authorService.getBy({email:email});
     if(!author) return res.status(404).send({error:"Usuario no encontrado."})
-    if(author.password !== password) return res.status(400).send({error:"Contraseña incorrecta."})
+    if(author.password !== password) {
+        return res.status(400).send({error:"Contraseña incorrecta."})
+    }
     req.session.author = {
         alias: author.alias,
         email: author.email
@@ -67,13 +74,13 @@ app.post('/login', async (req, res) => {
 })
 
 app.get('/auth/facebook', passport.authenticate('facebook', {scope:['email']}), (req, res) => {
-
+    console.log("callback")
 })
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {
     failureRedirect:'/failPage'
 }), (req, res) => {
-    res.send({message:'Logged in'})
+    res.redirect('/profile/')
 })
 
 //WEBSOCKETS

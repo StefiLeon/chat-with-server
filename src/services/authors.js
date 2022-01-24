@@ -8,4 +8,7 @@ export default class AuthorService extends GenericQueries {
     async findByAlias(alias) {
         return this.dao.findOne({alias}, Author.model);
     }
+    async findById(id) {
+        return this.dao.findOne({id}, Author.model);
+    }
 }
