@@ -13,15 +13,9 @@ form.addEventListener('submit', function(e) {
         headers: {
             'Content-Type':'application/json'
         }
-    })
-    .then(result => result.json())
-    .then(json => {
+    }).then(result => result.json()).then(json => {
         console.log(json);
-        if(!json.alias) {
-            res.send({status:403, message:"Credenciales no validas"})
-        } else {
-            location.replace('../chat/')
-        }
+        location.replace('../chat/')
     })
 })
 

@@ -1,6 +1,6 @@
 let logout = document.getElementById('outlog');
 
-logout.addEventListener('submit', function(e) {
+logout.addEventListener('click', function(e) {
     console.log('adios')
     // e.preventDefault();
     // fetch('/logout', {

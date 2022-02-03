@@ -73,6 +73,6 @@ export default class Dao {
 
     async exists (params, entity) {
         if(!this.models[entity]) throw new Error (`Entidad ${entity} no encontrada.`);
-        return this.models[entity].exists(params);5
+        return this.models[entity].exists(params);
     }
 }

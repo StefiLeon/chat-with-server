@@ -9,23 +9,26 @@ import ios from 'socket.io-express-session';
 import { authorService, messageService } from './services/chatServices.js';
 import initializePassportConfig from './services/passport-config.js';
 import passport from 'passport';
+import dotenv from 'dotenv';
+
+//DOTEVN
+dotenv.config();
 
 //EXPRESS
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8081;
 const server = app.listen(PORT, () => {
     console.log(`Servidor escuchando en ${PORT}`);
 })
 server.on('error', (error) => console.log(`Error en el servidor: ${error}`));
 
 //SESSION
-const expires = 600;
 const baseSession = (session({
-    store:MongoStore.create({mongoUrl:'mongodb+srv://StefiLeon:Laion160191@ecommerce.uxagm.mongodb.net/sessions?retryWrites=true&w=majority'}),
+    store:MongoStore.create({mongoUrl: process.env.MONGO_URI}),
     resave: false,
     saveUninitialized: false,
-    secret: '$73f!',
-    cookie: { maxAge: expires*1000 }
+    secret: process.env.SECRET,
+    cookie: { maxAge: process.env.EXPIRES*1000 }
 }))
 
 export const io = new Server(server);
@@ -82,6 +85,24 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 }), (req, res) => {
     res.redirect('/profile/')
 })
+
+app.get('/info', (req, res) => {
+    res.send({
+        argumentos:process.argv,
+        plataforma: process.platform,
+        version_node: process.version,
+        memoria: process.memoryUsage().rss,
+        path: process.execPath,
+        id: process.pid,
+        folder: process.cwd()
+    })
+})
+
+// app.get('/api/randoms', (req, res) => {
+
+//     let numbers = req.query.q;
+//     res.send(numbers)
+// })
 
 //WEBSOCKETS
 io.on('connection', socket => {
